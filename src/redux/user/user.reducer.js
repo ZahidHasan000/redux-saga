@@ -33,6 +33,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
 
         // Code refatoring in Email Sign in into Sagas
         case userActionTypes.SIGN_IN_SUCCESS:
+
+        // Solution Sign Up Saga
         case userActionTypes.SIGN_UP_SUCCESS:
 
             return {
