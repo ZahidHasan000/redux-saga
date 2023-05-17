@@ -1,4 +1,7 @@
-import React from "react";
+// import React from "react";
+
+// useEffect in our App
+import React, { useEffect } from "react";
 
 // nested routing in shop page
 import { Route } from "react-router-dom";
@@ -23,42 +26,60 @@ import { fetchCollectionsStart } from '../../redux/shop/shop.actions'
 
 // import './shop-page.styles.scss'
 
-class ShopPage extends React.Component {
+// useEffect in our App
+const ShopPage = ({ fetchCollectionsStart, match }) => {
 
-    // reason for redux thunk
-    // componentDidMount() {
-    //     const { fetchCollectionsStartAsync } = this.props
-    //     fetchCollectionsStartAsync()
-    // }
-
-    //reason for redux-saga
-    componentDidMount() {
-        const { fetchCollectionsStart } = this.props
+    useEffect(() => {
         fetchCollectionsStart()
-    }
+    }, [fetchCollectionsStart]);
 
-    render() {
-        // const { match } = this.props;
+    return (
+        <div className="shop-page">
+            {/* reason for container pattern */}
+            <Route exact path={`${match.path}`} component={CollectionsOverviewContainer} />
 
-        // reason for Redux thunk
-        // const { match, isCollectionFetching, isCollectionsLoaded } = this.props;
-
-        // reason for container pattern
-        const { match } = this.props;
-
-        {/* // withSpinner HOC 2 */ }
-        // const { loading } = this.state;
-
-        return (
-            <div className="shop-page">
-                {/* reason for container pattern */}
-                <Route exact path={`${match.path}`} component={CollectionsOverviewContainer} />
-
-                <Route path={`${match.path}/:collectionId`} component={CollectionPageContainer} />
-            </div>
-        );
-    }
+            <Route path={`${match.path}/:collectionId`} component={CollectionPageContainer} />
+        </div>
+    );
 };
+
+
+// class ShopPage extends React.Component {
+
+//     // reason for redux thunk
+//     // componentDidMount() {
+//     //     const { fetchCollectionsStartAsync } = this.props
+//     //     fetchCollectionsStartAsync()
+//     // }
+
+//     //reason for redux-saga
+//     componentDidMount() {
+//         const { fetchCollectionsStart } = this.props
+//         fetchCollectionsStart()
+//     }
+
+//     render() {
+//         // const { match } = this.props;
+
+//         // reason for Redux thunk
+//         // const { match, isCollectionFetching, isCollectionsLoaded } = this.props;
+
+//         // reason for container pattern
+//         const { match } = this.props;
+
+//         {/* // withSpinner HOC 2 */ }
+//         // const { loading } = this.state;
+
+//         return (
+//             <div className="shop-page">
+//                 {/* reason for container pattern */}
+//                 <Route exact path={`${match.path}`} component={CollectionsOverviewContainer} />
+
+//                 <Route path={`${match.path}/:collectionId`} component={CollectionPageContainer} />
+//             </div>
+//         );
+//     }
+// };
 
 // reason for Redux thunk
 // const mapStateToProps = createStructuredSelector({

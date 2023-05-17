@@ -1,4 +1,7 @@
-import React from 'react';
+// useEffect in our App
+import React, { useEffect } from 'react';
+
+// import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -25,59 +28,85 @@ import { selectCurrentUser } from './redux/user/user.selectors';
 //Recreating persistence
 import { checkUserSession } from './redux/user/user.actions';
 
-class App extends React.Component {
-  unsubscribeFromAuth = null;
+// useEffect in our App
+const App = ({ checkUserSession, currentUser }) => {
+  // unsubscribeFromAuth = null;
 
-  //Recreating persistence
-  componentDidMount() {
-    const { checkUserSession } = this.props;
-    checkUserSession()
-  };
+  useEffect(() => {
+    checkUserSession();
+  }, [checkUserSession]);
 
-  // componentDidMount() {
-  //Reason for redux
-  // const { setCurrentUser } = this.props;  // // Because now saga is handling setting our current user on success
+  return (
 
-  // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-  //   // createUserProfileDocument(user);
+    <div>
+      {/* Reason for redux set-up */}
+      <Header />
+      <Switch>
+        <Route exact path='/' component={HomePage} />
+        <Route path='/shop' component={ShopPage} />
+        <Route exact path='/checkout' component={CheckoutPage} />
 
-  //   if (userAuth) {
-  //     const userRef = await createUserProfileDocument(userAuth);
-
-  //     userRef.onSnapshot(snapShot => {
-  //       //Reason for redux set-up
-  //       setCurrentUser({
-  //         id: snapShot.id,
-  //         ...snapShot.data()
-  //       })
-  //     });
-  //   }
-  // });  //Rason for Google Sign in into sagas
-  // }
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth()
-  }
-
-  render() {
-    return (
-
-      <div>
-        {/* Reason for redux set-up */}
-        <Header />
-        <Switch>
-          <Route exact path='/' component={HomePage} />
-          <Route path='/shop' component={ShopPage} />
-          <Route exact path='/checkout' component={CheckoutPage} />
-
-          <Route exact path='/signin' render={() => this.props.currentUser ?
-            (<Redirect to='/' />) : (<SignInAndSignUpPage />)} />
-        </Switch>
-      </div>
-    )
-  }
-
+        <Route exact path='/signin' render={() => currentUser ?
+          (<Redirect to='/' />) : (<SignInAndSignUpPage />)} />
+      </Switch>
+    </div>
+  )
 }
+
+
+// class App extends React.Component {
+//   unsubscribeFromAuth = null;
+
+//   //Recreating persistence
+//   componentDidMount() {
+//     const { checkUserSession } = this.props;
+//     checkUserSession()
+//   };
+
+//   // componentDidMount() {
+//   //Reason for redux
+//   // const { setCurrentUser } = this.props;  // // Because now saga is handling setting our current user on success
+
+//   // this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+//   //   // createUserProfileDocument(user);
+
+//   //   if (userAuth) {
+//   //     const userRef = await createUserProfileDocument(userAuth);
+
+//   //     userRef.onSnapshot(snapShot => {
+//   //       //Reason for redux set-up
+//   //       setCurrentUser({
+//   //         id: snapShot.id,
+//   //         ...snapShot.data()
+//   //       })
+//   //     });
+//   //   }
+//   // });  //Rason for Google Sign in into sagas
+//   // }
+
+//   componentWillUnmount() {
+//     this.unsubscribeFromAuth()
+//   }
+
+//   render() {
+//     return (
+
+//       <div>
+//         {/* Reason for redux set-up */}
+//         <Header />
+//         <Switch>
+//           <Route exact path='/' component={HomePage} />
+//           <Route path='/shop' component={ShopPage} />
+//           <Route exact path='/checkout' component={CheckoutPage} />
+
+//           <Route exact path='/signin' render={() => this.props.currentUser ?
+//             (<Redirect to='/' />) : (<SignInAndSignUpPage />)} />
+//         </Switch>
+//       </div>
+//     )
+//   }
+
+// }
 
 //user selector
 const mapStateToProps = createStructuredSelector({
